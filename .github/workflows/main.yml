@@ -1,0 +1,30 @@
+name: Run Tests on Push
+
+on:
+  push:
+    branches:
+      - main   # فقط در صورت Push به شاخه اصلی اجرا شود
+  pull_request:
+    branches:
+      - main   # در صورت ایجاد Pull Request اجرا شود
+
+jobs:
+  test:
+    runs-on: ubuntu-latest   # استفاده از سیستم عامل اوبونتو برای اجرای تست‌ها
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # گیت‌هاب کد شما را چک‌اوت می‌کند
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'   # تنظیم نسخه پایتون
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # نصب وابستگی‌ها از فایل requirements.txt
+
+    - name: Run tests
+      run: pytest  # اجرای تست‌ها با pytest
